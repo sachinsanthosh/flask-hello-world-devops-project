@@ -32,10 +32,10 @@ pipeline {
             }
         }
         stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-                sh 'minikube kubectl -- apply -f deployment.yaml'
-                sh 'minikube kubectl -- apply -f service.yaml'
+           steps {
+                echo "Deploying the container"
+                sh "docker run -d -p 4444:4444 sachinhub1296/flask-hello-world"
+                
             }
         }
     }
