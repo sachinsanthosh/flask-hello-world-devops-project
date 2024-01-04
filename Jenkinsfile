@@ -25,11 +25,13 @@ pipeline {
             }
         }
         stage('Push') {
-            steps {
-                echo 'Pushing image..'
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push $DOCKER_HUB_REPO:latest'
-            }
+          steps {
+                echo "Pushing the image to docker hub"
+                withCredentials([usernamePassword(credentialsId:"dockerHub",passwordVariable:"dockerHubPass",usernameVariable:"dockerHubUser")]){
+                sh "docker tag my-note-app ${env.dockerHubUser}/my-note-app:latest"
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                sh "docker push ${env.dockerHubUser}/my-note-app:latest"
+                }
         }
         stage('Deploy') {
            steps {
