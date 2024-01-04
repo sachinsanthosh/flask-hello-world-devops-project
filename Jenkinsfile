@@ -32,6 +32,7 @@ pipeline {
                 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
                 sh "docker push ${env.dockerHubUser}/my-note-app:latest"
                 }
+          }
         }
         stage('Deploy') {
            steps {
